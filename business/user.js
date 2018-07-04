@@ -40,14 +40,22 @@ function getAcUser(req, res, next) {
   )
 }
 
-function addAcUser(req, res, next) {
+const addAcUser = async(req, res, next) => {
   let data = req.body
-  dao.user.addAcUser(data).then(
-    doc => {
-      res.send(doc)
-    },
-    err => next(err)
-  )
+  let acUser = await dao.user.getAcUser(data)
+  if(!acUser[0]) {
+    dao.user.addAcUser(data).then(
+      doc => {
+        res.send(doc)
+      },
+      err => next(err)
+    )
+  }else {
+    next({
+      status: '400',
+      text: '用户已存在'
+    })
+  }
 }
 
 function deleteAcUser(req, res, next) {
