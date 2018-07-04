@@ -55,7 +55,7 @@ function exportFile(req, res, next) {
       let pathname = path.join(__dirname, '../public/downloadlist', filename)
       fs.writeFileSync(pathname, buffer)
       res.send({
-        exportUrl: `http://47.100.181.195:8002/downloadlist/${filename}`
+        exportUrl: `/downloadlist/${filename}`
       })
     }, err => next(err))
 }
